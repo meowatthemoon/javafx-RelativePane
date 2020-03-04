@@ -9,7 +9,7 @@ RelativePane as a root pane (needs to provide the stage):
 RelativePane rootPane = new RelativePane(Stage, Window_Start_Width, Window_Start_Height);
 ```
 
-RelativePane w/o root pane:
+RelativePane without being a root pane:
 ```
 RelativePane subpane = new RelativePane();
 ```
