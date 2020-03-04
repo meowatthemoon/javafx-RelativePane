@@ -10,15 +10,15 @@ RelativePane rootPane = new RelativePane(Stage, Window_Start_Width, Window_Start
 ```
 
 RelativePane w/o root pane:
-'''
+```
 RelativePane subpane = new RelativePane();
-'''
+```
 
 Adding nodes to a RelativePane:
-'''
+```
 Button button = new Button("A button");
 a_relative_pane.add_child(button, relative_x, relative_y, relative_w, relative_h);
-'''
+```
 
 ## Requirements
 [Java-FX Modules](https://gluonhq.com/products/javafx/)
