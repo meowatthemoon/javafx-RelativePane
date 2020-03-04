@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 
@@ -13,11 +14,13 @@ public class RelativePane extends Pane {
     private ArrayList<Child> children;
     private double width, height;
     private boolean is_root = false;
+    private Stage stage = null;
 
     public RelativePane(Stage primaryStage, double width, double height) {
         super();
 
         this.is_root = true;
+        stage = primaryStage;
         this.setPrefSize(width, height);
         primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
             this.OnSizeUpdate((double) newVal, -1);
@@ -41,10 +44,17 @@ public class RelativePane extends Pane {
     private void OnSizeUpdate(double newWidth, double newHeight) {
         if (newWidth == -1) {
             double bar_height = 37.599998474121094;
-            this.height = newHeight - bar_height;
+            if(stage.getStyle() == StageStyle.DECORATED)
+                this.height = newHeight - bar_height;
+            else
+                this.height = newHeight;
+
         } else {
             double window_thickness = 14.3999938964844;
-            this.width = newWidth - window_thickness;
+            if(stage.getStyle() == StageStyle.DECORATED)
+                this.width = newWidth - window_thickness;
+            else
+                this.width = newWidth;
         }
 
         this.redraw_children();
@@ -80,116 +90,79 @@ public class RelativePane extends Pane {
 
         if (child.object.getClass() == RelativePane.class) {
             ((RelativePane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == AnchorPane.class){
+        } else if (child.object.getClass() == AnchorPane.class) {
             ((AnchorPane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == Accordion.class){
+        } else if (child.object.getClass() == Accordion.class) {
             ((Accordion) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == BorderPane.class){
+        } else if (child.object.getClass() == BorderPane.class) {
             ((BorderPane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == Button.class){
+        } else if (child.object.getClass() == Button.class) {
             ((Button) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == CheckBox.class){
+        } else if (child.object.getClass() == CheckBox.class) {
             ((CheckBox) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == ChoiceBox.class){
+        } else if (child.object.getClass() == ChoiceBox.class) {
             ((ChoiceBox) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == ColorPicker.class){
+        } else if (child.object.getClass() == ColorPicker.class) {
             ((ColorPicker) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == ComboBox.class){
+        } else if (child.object.getClass() == ComboBox.class) {
             ((ComboBox) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == DatePicker.class){
+        } else if (child.object.getClass() == DatePicker.class) {
             ((DatePicker) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == FlowPane.class){
+        } else if (child.object.getClass() == FlowPane.class) {
             ((FlowPane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == GridPane.class){
+        } else if (child.object.getClass() == GridPane.class) {
             ((GridPane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == HBox.class){
+        } else if (child.object.getClass() == HBox.class) {
             ((HBox) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == Label.class){
+        } else if (child.object.getClass() == Label.class) {
             ((Label) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == ListView.class){
+        } else if (child.object.getClass() == ListView.class) {
             ((ListView) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == MenuBar.class){
+        } else if (child.object.getClass() == MenuBar.class) {
             ((MenuBar) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == Pane.class){
+        } else if (child.object.getClass() == Pane.class) {
             ((Pane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == PasswordField.class){
+        } else if (child.object.getClass() == PasswordField.class) {
             ((PasswordField) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == ProgressBar.class){
+        } else if (child.object.getClass() == ProgressBar.class) {
             ((ProgressBar) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == RadioButton.class){
+        } else if (child.object.getClass() == RadioButton.class) {
             ((RadioButton) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == Slider.class){
+        } else if (child.object.getClass() == Slider.class) {
             ((Slider) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == Spinner.class){
+        } else if (child.object.getClass() == Spinner.class) {
             ((Spinner) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == SplitMenuButton.class){
+        } else if (child.object.getClass() == SplitMenuButton.class) {
             ((SplitMenuButton) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == SplitPane.class){
+        } else if (child.object.getClass() == SplitPane.class) {
             ((SplitPane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == StackPane.class){
+        } else if (child.object.getClass() == StackPane.class) {
             ((StackPane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == TableView.class){
+        } else if (child.object.getClass() == TableView.class) {
             ((TableView) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == TabPane.class){
+        } else if (child.object.getClass() == TabPane.class) {
             ((TabPane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == TextArea.class){
+        } else if (child.object.getClass() == TextArea.class) {
             ((TextArea) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == TextField.class){
+        } else if (child.object.getClass() == TextField.class) {
             ((TextField) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == TextFlow.class){
+        } else if (child.object.getClass() == TextFlow.class) {
             ((TextFlow) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == TilePane.class){
+        } else if (child.object.getClass() == TilePane.class) {
             ((TilePane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == TitledPane.class){
+        } else if (child.object.getClass() == TitledPane.class) {
             ((TitledPane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == ToggleButton.class){
+        } else if (child.object.getClass() == ToggleButton.class) {
             ((ToggleButton) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == ToolBar.class){
+        } else if (child.object.getClass() == ToolBar.class) {
             ((ToolBar) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == TreeTableView.class){
+        } else if (child.object.getClass() == TreeTableView.class) {
             ((TreeTableView) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == TreeView.class){
+        } else if (child.object.getClass() == TreeView.class) {
             ((TreeView) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else if(child.object.getClass() == VBox.class){
+        } else if (child.object.getClass() == VBox.class) {
             ((VBox) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        }
-        else {
+        } else {
             System.out.println("Implement case for type = " + child.object.getClass().toString());
             System.exit(0);
         }
