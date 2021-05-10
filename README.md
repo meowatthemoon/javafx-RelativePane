@@ -4,6 +4,7 @@ An implementation of a 'TKinter-like' layout for java-fx.
 Instead of having to think about what type of layouts to use in order to achieve the desired look, one just has to specify the relative position and the relative size of the element to its parent. Inspired by python's TKinter library.
 
 ## Usage 
+```
 rootPane = new RelativePane(window_width, window_height);
 rootPane.add_child(top_bar, 0, 0, 1, 0.1f);
 
@@ -19,7 +20,7 @@ primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
     rootPane.setHeight(newVal.intValue());
     rootPane.redraw();
 });
-
+```
 Adding nodes to a RelativePane:
 ```
 Button button = new Button("A button");
