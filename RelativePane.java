@@ -1,5 +1,3 @@
-package AccountManager;
-
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -88,7 +86,23 @@ public class RelativePane extends Pane {
 
         draw();
     }
+    
+    public void remove_child(Node object){
+        for (int i = 0; i < children.size(); i++) {
+            if (children.get(i).object.equals(object)){
+                children.remove(i);
+                break;
+            }
+        }
+        draw();
+    }
 
+    public void clear(){
+        children = new ArrayList<>();
+        
+        draw();
+    }
+    
     public void onWindowUpdate() {
         //System.out.println("Updated width = "+this.current_width+" height = "+this.current_height);
         draw();
