@@ -6,7 +6,6 @@ Instead of having to think about what type of layouts to use in order to achieve
 ## Usage 
 ```
 rootPane = new RelativePane(window_width, window_height);
-rootPane.add_child(top_bar, 0, 0, 1, 0.1f);
 
 primaryStage.setScene(new Scene(rootPane));
 primaryStage.show();
