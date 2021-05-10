@@ -1,4 +1,4 @@
-package UI;
+package AccountManager;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -22,67 +22,85 @@ public class RelativePane extends Pane {
         }
     }
 
+    private int current_width, current_height;
     private ArrayList<Child> children;
-    private int width, height;
+    private int bar_height = 39;
+    private boolean root_pane;
 
-    public RelativePane(int width, int height) {
+    public RelativePane(int initial_width, int initial_height) {
         super();
-        children = new ArrayList<>();
-        this.width = width;
-        this.height = height;
-        this.setPrefSize(width, height);
+        this.current_width = initial_width;
+        this.current_height = initial_height - bar_height;
+        this.setPrefSize(initial_width, initial_height);
+        this.children = new ArrayList<>();
+
+        this.root_pane = true;
     }
 
     public RelativePane() {
         super();
-        children = new ArrayList<>();
-        this.setPrefSize(width, height);
+
+        this.children = new ArrayList<>();
+        this.root_pane = false;
     }
 
-    public void redraw() {
+    public void draw() {
+        // Clear the pane
         this.getChildren().clear();
-        //redraw
+
+        // Draw the children
         for (int i = 0; i < children.size(); i++) {
-            draw(children.get(i));
-            if (children.get(i).object.getClass() == RelativePane.class)
-                ((RelativePane) children.get(i).object).redraw();
+            float rel_w = children.get(i).rel_w;
+            float rel_h = children.get(i).rel_h;
+
+            // Size
+            if (children.get(i).object.getClass() == Button.class) {
+                ((Button) children.get(i).object).setPrefSize(this.current_width * rel_w, this.current_height * rel_h);
+            } else if (children.get(i).object.getClass() == Label.class) {
+                ((Label) children.get(i).object).setPrefSize(this.current_width * rel_w, this.current_height * rel_h);
+            } else if (children.get(i).object.getClass() == RelativePane.class) {
+                ((RelativePane) children.get(i).object).setPrefSize(this.current_width * rel_w, this.current_height * rel_h);
+
+                int w = (int) (this.current_width * rel_w);
+                int h = (int) (this.current_height * rel_h);
+
+                ((RelativePane) children.get(i).object).setHeight(h);
+                ((RelativePane) children.get(i).object).setWidth(w);
+
+                ((RelativePane) children.get(i).object).draw();
+            } else {
+                System.out.println("Implement case for type = " + children.get(i).object.getClass().toString());
+                System.exit(0);
+            }
+
+
+            // Position
+            children.get(i).object.setLayoutX(this.current_width * children.get(i).rel_x);
+            children.get(i).object.setLayoutY(this.current_height * children.get(i).rel_y);
+
+            this.getChildren().add(children.get(i).object);
         }
-    }
-
-    public void draw(Child child) {
-
-
-        if (child.object.getClass() == Button.class)
-            ((Button) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        else if (child.object.getClass() == Label.class)
-            ((Label) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-        else if (child.object.getClass() == RelativePane.class) {
-            ((RelativePane) child.object).setPrefSize(this.width * child.rel_w, this.height * child.rel_h);
-            ((RelativePane) child.object).setHeight(this.width * child.rel_w);
-            ((RelativePane) child.object).setWidth(this.height * child.rel_h);
-        } else {
-            System.out.println("Implement case for type = " + child.object.getClass().toString());
-            System.exit(0);
-        }
-
-        child.object.setLayoutX(this.width * child.rel_x);
-        child.object.setLayoutY(this.height * child.rel_y);
-
-        this.getChildren().add(child.object);
-
     }
 
     public void add_child(Node object, float rel_x, float rel_y, float rel_w, float rel_h) {
         Child child = new Child(object, rel_x, rel_y, rel_w, rel_h);
         children.add(child);
-        draw(child);
+
+        draw();
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public void onWindowUpdate() {
+        //System.out.println("Updated width = "+this.current_width+" height = "+this.current_height);
+        draw();
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setWidth(int new_width) {
+        this.current_width = new_width;
+    }
+
+    public void setHeight(int new_height) {
+        this.current_height = new_height;
+        if (this.root_pane)
+            this.current_height -= bar_height;
     }
 }
