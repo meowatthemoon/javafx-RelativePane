@@ -4,15 +4,21 @@ An implementation of a 'TKinter-like' layout for java-fx.
 Instead of having to think about what type of layouts to use in order to achieve the desired look, one just has to specify the relative position and the relative size of the element to its parent. Inspired by python's TKinter library.
 
 ## Usage 
-RelativePane as a root pane (needs to provide the stage):
-```
-RelativePane rootPane = new RelativePane(Stage, Window_Start_Width, Window_Start_Height);
-```
+rootPane = new RelativePane(window_width, window_height);
+rootPane.add_child(top_bar, 0, 0, 1, 0.1f);
 
-RelativePane without being a root pane:
-```
-RelativePane subpane = new RelativePane();
-```
+primaryStage.setScene(new Scene(rootPane));
+primaryStage.show();
+
+primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
+    rootPane.setWidth(newVal.intValue());
+    rootPane.redraw();
+});
+
+primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
+    rootPane.setHeight(newVal.intValue());
+    rootPane.redraw();
+});
 
 Adding nodes to a RelativePane:
 ```
